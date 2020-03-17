@@ -10,7 +10,7 @@ dotenv.config();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-var port = process.env.PORT || 3501;
+var port = process.env.PORT || 3502;
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", JwtHelper.validateToken, userRoutes);

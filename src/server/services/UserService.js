@@ -5,7 +5,6 @@ class UserService {
   static async getAllUsers() {
     try {
       const users = await database.User.findAll();
-
       return users;
     } catch (error) {
       throw error;

@@ -21,7 +21,7 @@ module.exports = {
   jwt: {
     secret: process.env.JWT_SECRET,
     session: process.env.JWT_SESSION,
-    exp: Math.floor(Date.now() / 1000) + 20,
+    exp: Math.floor(Date.now() / 1000) + 60 * 30,
     iat: Math.floor(Date.now() / 1000)
   }
 };
