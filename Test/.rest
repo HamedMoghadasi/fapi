@@ -1,5 +1,5 @@
 GET http://localhost:3502/api/v1/users
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NDQ3MTU3NiwiZXhwIjoxNTg0NDc1MTc2fQ.S6TKGohHY8NaQ4g2KKJUakupjrgu4OmN-i_GTpeiQ60
 ###
 
 POST http://localhost:3502/api/v1/users
@@ -16,7 +16,7 @@ DELETE http://localhost:3502/api/v1/users/5
 
 ###
 
-POST http://localhost:3502/api/v1/users/login
+POST http://localhost:3502/api/v1/auth/login
 Content-Type: application/json
 
 {

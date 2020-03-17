@@ -1,5 +1,6 @@
 import UserService from "../services/UserService";
 import Util from "../utils/Utils";
+import JwtHelper from "../utils/Jwt";
 import bcrypt from "bcrypt";
 
 const util = new Util();
@@ -12,12 +13,12 @@ class UserController {
     }
     try {
       const theUser = await UserService.getUserByEmail(req.body.email);
-
-      console.log(theUser);
       if (theUser) {
         bcrypt.compare(req.body.password, theUser.password, (error, result) => {
           if (result) {
-            util.setSuccess(201, "Successfully logined.", { token: "token" });
+            util.setSuccess(200, "Successfully logined.", {
+              token: JwtHelper.generateToken(theUser)
+            });
             return util.send(res);
           } else {
             util.setError(400, "Password is wrong");

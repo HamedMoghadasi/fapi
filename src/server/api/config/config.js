@@ -16,5 +16,12 @@ module.exports = {
     password: process.env.DB_PASS,
     host: process.env.DB_HOST,
     dialect: "postgres"
+  },
+
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    session: process.env.JWT_SESSION,
+    exp: Math.floor(Date.now() / 1000) + 20,
+    iat: Math.floor(Date.now() / 1000)
   }
 };
