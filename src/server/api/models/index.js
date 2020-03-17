@@ -34,7 +34,8 @@ if (config.environment === "production") {
   sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     port: config.port,
-    dialect: "postgres"
+    dialect: "postgres",
+    query: { raw: true }
   });
 }
 

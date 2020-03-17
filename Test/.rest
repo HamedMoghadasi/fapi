@@ -1,24 +1,26 @@
-GET http://localhost:3501/api/v1/users/2
+GET http://localhost:3502/api/v1/users
 
 ###
 
-POST http://localhost:3501/api/v1/users
+POST http://localhost:3502/api/v1/users
 Content-Type: application/json
 
 {
+    "id": 1,
     "email":"h4lmed@gmail.com",
     "username":"hamed",
     "password": "123456"
 }
+###
+DELETE http://localhost:3502/api/v1/users/5
 
 ###
 
-PUT http://localhost:3501/api/v1/users/1
+POST http://localhost:3502/api/v1/users/login
 Content-Type: application/json
 
 {
-    "username":"hamed"
+    "email": "h4lmed@gmail.com",
+    "password": "123456"
 }
 
-###
-DELETE http://localhost:3501/api/v1/users/2

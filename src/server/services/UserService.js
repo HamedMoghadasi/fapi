@@ -1,10 +1,10 @@
 import database from "../api/models";
+import bcrypt from "bcrypt";
 
 class UserService {
   static async getAllUsers() {
     try {
       const users = await database.User.findAll();
-      console.log(users);
 
       return users;
     } catch (error) {
@@ -14,7 +14,16 @@ class UserService {
 
   static async addUser(newUser) {
     try {
-      return await database.User.create(newUser);
+      let result;
+      bcrypt.hash(newUser.password, 15, (err, hash) => {
+        const user = {
+          ...newUser,
+          password: hash
+        };
+        result = database.User.create(user);
+      });
+
+      return result;
     } catch (error) {
       throw error;
     }
@@ -41,6 +50,18 @@ class UserService {
     try {
       const theUser = await database.User.findOne({
         where: { id: Number(id) }
+      });
+
+      return theUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getUserByEmail(email) {
+    try {
+      const theUser = await database.User.findOne({
+        where: { email: email }
       });
 
       return theUser;
