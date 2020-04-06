@@ -13,25 +13,18 @@ class UserService {
 
   static async addUser(newUser) {
     try {
-      let result;
-      bcrypt.hash(newUser.password, 15, (err, hash) => {
-        const user = {
-          ...newUser,
-          password: hash
-        };
-        result = database.User.create(user);
+      return database.User.create(newUser).catch((error) => {
+        throw error;
       });
-
-      return result;
     } catch (error) {
-      throw error;
+      throw error.detail;
     }
   }
 
   static async updateUser(id, updateUser) {
     try {
       const userToUpdate = await database.User.findOne({
-        where: { id: Number(id) }
+        where: { id: Number(id) },
       });
 
       if (userToUpdate) {
@@ -48,7 +41,7 @@ class UserService {
   static async getAUser(id) {
     try {
       const theUser = await database.User.findOne({
-        where: { id: Number(id) }
+        where: { id: Number(id) },
       });
 
       return theUser;
@@ -60,7 +53,7 @@ class UserService {
   static async getUserByEmail(email) {
     try {
       const theUser = await database.User.findOne({
-        where: { email: email }
+        where: { email: email },
       });
 
       return theUser;
@@ -72,12 +65,12 @@ class UserService {
   static async deleteUser(id) {
     try {
       const userToDelete = await database.User.findOne({
-        where: { id: Number(id) }
+        where: { id: Number(id) },
       });
 
       if (userToDelete) {
         const deletedUser = await database.User.destroy({
-          where: { id: Number(id) }
+          where: { id: Number(id) },
         });
         return deletedUser;
       }

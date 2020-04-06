@@ -2,12 +2,12 @@ require("dotenv").config();
 
 module.exports = {
   development: {
-    database: "sequa",
-    username: "sequa_hamed",
+    database: "faterDb_dev2",
+    username: "postgres",
     password: "0017169461hamed",
     host: "localhost",
     port: "5432",
-    dialect: "postgres"
+    dialect: "postgres",
   },
 
   production: {
@@ -15,13 +15,13 @@ module.exports = {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     host: process.env.DB_HOST,
-    dialect: "postgres"
+    dialect: "postgres",
   },
 
   jwt: {
     secret: process.env.JWT_SECRET,
     session: process.env.JWT_SESSION,
     exp: Math.floor(Date.now() / 1000) + 60 * 30,
-    iat: Math.floor(Date.now() / 1000)
-  }
+    iat: Math.floor(Date.now() / 1000),
+  },
 };

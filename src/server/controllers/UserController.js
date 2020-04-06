@@ -17,7 +17,7 @@ class UserController {
         bcrypt.compare(req.body.password, theUser.password, (error, result) => {
           if (result) {
             util.setSuccess(200, "Successfully logined.", {
-              token: JwtHelper.generateToken(theUser)
+              token: JwtHelper.generateToken(theUser),
             });
             return util.send(res);
           } else {
@@ -61,7 +61,8 @@ class UserController {
       util.setSuccess(201, "User Added!", createdUser);
       return util.send(res);
     } catch (error) {
-      util.setError(400, error.message);
+      console.log(error.errors[0].message);
+      util.setError(400, error.errors[0].message);
       return util.send(res);
     }
   }
