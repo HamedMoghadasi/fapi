@@ -1,5 +1,6 @@
 "use strict";
 const bcrypt = require("bcrypt");
+const uuid = require("uuid/v4");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
@@ -22,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       .hash(user.password, 15)
       .then((hash) => {
         user.password = hash;
+        user.confirmationCode = uuid();
       })
       .catch((err) => {
         throw new Error();

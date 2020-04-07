@@ -1,5 +1,4 @@
 import database from "../api/models";
-import bcrypt from "bcrypt";
 
 class UserService {
   static async getAllUsers() {

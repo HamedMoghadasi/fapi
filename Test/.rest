@@ -6,15 +6,14 @@ POST http://localhost:3502/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "email":"h4asdlmedd@gmail.com",
+    "email":"h4asdasdflmedd@gmail.com",
     "username":"hamsssed",
-    "password": "123456",
-    "confirmationCode": "575838ce-9947-43c7-a5f4-0bdef843e95c"
+    "password": "123456"
 }
 
 ###
-DELETE http://localhost:3502/api/v1/users/4
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NjE2NTEyNCwiZXhwIjoxNTg2MTY2OTI0fQ.xRNZ19KDZX-pnvedXnRFJE-LEB6r_lyyHoPxJQPLxsc
+DELETE http://localhost:3502/api/v1/users/29
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NjE2NzA4NywiZXhwIjoxNTg2MTY4ODg3fQ.U644vrJcebscN7irkqVVCW413om11JhyX0yeClguAXc
 
 ###
 

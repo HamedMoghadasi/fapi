@@ -3,6 +3,8 @@ import Util from "../utils/Utils";
 import JwtHelper from "../utils/Jwt";
 import bcrypt from "bcrypt";
 
+import MailService from "../services/MailService";
+
 const util = new Util();
 
 class UserController {
@@ -56,12 +58,16 @@ class UserController {
       return util.send(res);
     }
     const newUser = req.body;
+
     try {
       const createdUser = await UserService.addUser(newUser);
+
+      var url = `${req.protocol}://${req.headers.host}`;
+      MailService.Send(createdUser.email, createdUser.confirmationCode, url);
+
       util.setSuccess(201, "User Added!", createdUser);
       return util.send(res);
     } catch (error) {
-      console.log(error.errors[0].message);
       util.setError(400, error.errors[0].message);
       return util.send(res);
     }
