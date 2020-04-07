@@ -5,11 +5,31 @@ import bcrypt from "bcrypt";
 
 import MailService from "../services/MailService";
 import uuid from "uuid/v4";
+import UserActivityLogService from "../services/UserActivityLogService";
 
 const util = new Util();
 const state = require("../constants/userStates");
+const userActivity = require("../constants/userActivity");
 
 class UserController {
+  static async logout(req, res) {
+    try {
+      const id = req.user.id;
+      if (Number(id)) {
+        await UserActivityLogService.Log(userActivity.Logout, id);
+
+        util.setSuccess(200, "Successfully Logouted.");
+        return util.send(res);
+      } else {
+        util.setError(400, "This user was not logined.");
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
   static async login(req, res) {
     if (!req.body.email || !req.body.password) {
       util.setError(400, "Please provide complete details");
@@ -17,6 +37,7 @@ class UserController {
     }
     try {
       const theUser = await UserService.getUserByEmail(req.body.email);
+      await UserActivityLogService.Log(userActivity.Login, theUser.id);
       if (theUser) {
         if (theUser.isEmailConfirmed) {
           if (
@@ -35,6 +56,7 @@ class UserController {
                 util.setSuccess(200, "Successfully logined.", {
                   token: JwtHelper.generateToken(theUser),
                 });
+
                 return util.send(res);
               } else {
                 util.setError(400, "Password is wrong");
