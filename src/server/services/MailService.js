@@ -2,14 +2,6 @@ import nodemailer from "nodemailer";
 
 export default class MailService {
   static async Send(email, confirmationCode, origin) {
-    // var transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: "h4lmed@gmail.com",
-    //     pass: "orchidHM8632",
-    //   },
-    // });
-
     var transporter = nodemailer.createTransport({
       host: "webmail.developair.ir",
       port: 587,
@@ -20,9 +12,9 @@ export default class MailService {
       },
     });
 
-    var activationUrl = `${origin}/api/v1/confirmation/${confirmationCode}`;
+    var activationUrl = `${origin}/api/v1/auth/confirmation/${confirmationCode}`;
     var body = `<h1><a href='${activationUrl}' 
-    style="    text-decoration: none;
+    style="text-decoration: none;
     color: black;
     border: 1px solid #106d26;
     border-radius: 5px;

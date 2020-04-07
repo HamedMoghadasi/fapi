@@ -49,6 +49,18 @@ class UserService {
     }
   }
 
+  static async getAUserByConfirmationCode(code) {
+    try {
+      const theUser = await database.User.findOne({
+        where: { confirmationCode: code },
+      });
+
+      return theUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getUserByEmail(email) {
     try {
       const theUser = await database.User.findOne({

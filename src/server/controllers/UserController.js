@@ -4,6 +4,7 @@ import JwtHelper from "../utils/Jwt";
 import bcrypt from "bcrypt";
 
 import MailService from "../services/MailService";
+import uuid from "uuid/v4";
 
 const util = new Util();
 
@@ -69,6 +70,39 @@ class UserController {
       return util.send(res);
     } catch (error) {
       util.setError(400, error.errors[0].message);
+      return util.send(res);
+    }
+  }
+
+  static async confirmUser(req, res) {
+    const { code } = req.params;
+    console.log(code);
+    if (code.length < 0) {
+      util.setError(400, "confirmation code is not valid");
+      return util.send(res);
+    }
+    try {
+      const targetUser = await UserService.getAUserByConfirmationCode(code);
+      if (!targetUser) {
+        util.setError(404, `confirmation code is not valid`);
+      } else {
+        targetUser.confirmationCode = uuid();
+        targetUser.isEmailConfirmed = true;
+        const updateUser = await UserService.updateUser(
+          targetUser.id,
+          targetUser
+        );
+        if (!updateUser) {
+          util.setError(404, `Cannot find user with the id: ${id}`);
+        } else {
+          util.setSuccess(200, "User Activated!", {
+            isEmailConfirmed: updateUser.isEmailConfirmed,
+          });
+        }
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
       return util.send(res);
     }
   }
