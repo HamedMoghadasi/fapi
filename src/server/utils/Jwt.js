@@ -11,7 +11,7 @@ export default class JwtHelper {
       email: payload.email,
       role: payload.role,
       iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 60 * 30,
+      exp: Math.floor(Date.now() / 1000) + 60 * 30000000,
     };
 
     return jwt.sign(data, config.jwt.secret);
