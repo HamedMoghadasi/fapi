@@ -1,5 +1,5 @@
 GET http://localhost:3502/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDEyMTksImV4cCI6MTU4NjI0MzAxOX0.1zTzrlBqBSI4Er6XsfrEVgHmzV1ps0VjFHmz2ZzLc64
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzcsInVzZXJuYW1lIjoieGhhbWVkIiwiZW1haWwiOiJ4aDRsbWVkQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTg2MjQxNzgwLCJleHAiOjE1ODYyNDM1ODB9.vg9wBCtTssnnau78Hxp5ZvVuuW3PENsSQxoF6SiE7CU
 ###
 
 POST http://localhost:3502/api/v1/auth/register
@@ -11,7 +11,7 @@ Content-Type: application/json
     "password": "123456"
 }
 ###
-GET  http://localhost:3502/api/v1/auth/confirmation/a8f8794e-25f0-48dd-baa9-7abb1199081d
+GET  http://localhost:3502/api/v1/auth/confirmation/3ef424b7-455f-4e3b-a2ab-1fa57d5486da
 ###
 DELETE http://localhost:3502/api/v1/users/45
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NjE2NzA4NywiZXhwIjoxNTg2MTY4ODg3fQ.U644vrJcebscN7irkqVVCW413om11JhyX0yeClguAXc
@@ -21,6 +21,21 @@ POST http://localhost:3502/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email": "h4lmed@gmail.com",
+    "email": "xh4lmed@gmail.com",
     "password": "123456"
 }
+###
+
+GET http://localhost:3502/api/v1/profile/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzcsInVzZXJuYW1lIjoieGhhbWVkIiwiZW1haWwiOiJ4aDRsbWVkQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTg2MjQ2OTgzLCJleHAiOjE1ODYyNDg3ODN9.pOzw_-YrlBwB6qiq9bhlUHpVDGTs4ko4lOa0eAf6300
+###
+PUT http://localhost:3502/api/v1/profile/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzcsInVzZXJuYW1lIjoieGhhbWVkIiwiZW1haWwiOiJ4aDRsbWVkQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTg2MjQ2OTgzLCJleHAiOjE1ODYyNDg3ODN9.pOzw_-YrlBwB6qiq9bhlUHpVDGTs4ko4lOa0eAf6300
+
+{
+    "username":"xhamedx"
+}
+###
+DELETE http://localhost:3502/api/v1/profile/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzcsInVzZXJuYW1lIjoieGhhbWVkIiwiZW1haWwiOiJ4aDRsbWVkQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTg2MjQ2OTgzLCJleHAiOjE1ODYyNDg3ODN9.pOzw_-YrlBwB6qiq9bhlUHpVDGTs4ko4lOa0eAf6300

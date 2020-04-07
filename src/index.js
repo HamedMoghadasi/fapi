@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import userRoutes from "./server/routes/UserRoutes";
 import authRoutes from "./server/routes/AuthRouter";
+import userProfileRoutes from "./server/routes/UserProfileRouter";
 import JwtHelper from "./server/utils/Jwt";
 
 var app = new express();
@@ -13,7 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var port = process.env.PORT || 3502;
 
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", JwtHelper.validateToken, userRoutes);
+app.use("/api/v1/admin/users", JwtHelper.validateToken, userRoutes);
+app.use("/api/v1/profile/user", JwtHelper.validateToken, userProfileRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on PORT :: ${port}`);

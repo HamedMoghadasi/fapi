@@ -7,6 +7,7 @@ import MailService from "../services/MailService";
 import uuid from "uuid/v4";
 
 const util = new Util();
+const state = require("../constants/userStates");
 
 class UserController {
   static async login(req, res) {
@@ -18,7 +19,10 @@ class UserController {
       const theUser = await UserService.getUserByEmail(req.body.email);
       if (theUser) {
         if (theUser.isEmailConfirmed) {
-          console.log(theUser.role);
+          if (theUser.state === state.Suspend) {
+            util.setError(403, "Your account is suspended.");
+            return util.send(res);
+          }
 
           bcrypt.compare(
             req.body.password,
@@ -118,7 +122,7 @@ class UserController {
     }
   }
 
-  static async updatedUser(req, res) {
+  static async updateUser(req, res) {
     const alteredUser = req.body;
     const { id } = req.params;
     if (!Number(id)) {
@@ -164,6 +168,75 @@ class UserController {
 
   static async deleteUser(req, res) {
     const { id } = req.params;
+
+    if (!Number(id)) {
+      util.setError(400, "Please provide a numeric value");
+      return util.send(res);
+    }
+
+    try {
+      const userToDelete = await UserService.deleteUser(id);
+
+      if (userToDelete) {
+        util.setSuccess(200, "User deleted");
+      } else {
+        util.setError(404, `User with the id ${id} cannot be found`);
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async getUserAccount(req, res) {
+    const id = req.user.id;
+
+    if (!Number(id)) {
+      util.setError(400, "Please input a valid numeric value");
+      return util.send(res);
+    }
+
+    try {
+      const theUser = await UserService.getAUser(id);
+
+      if (!theUser) {
+        util.setError(404, `Cannot find user with the id ${id}`);
+      } else {
+        util.setSuccess(200, "Found User", theUser);
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
+      return util.send(res);
+    }
+  }
+
+  static async updateUserAccount(req, res) {
+    const id = req.user.id;
+    const alteredUser = req.body;
+    console.log(alteredUser);
+
+    if (!Number(id)) {
+      util.setError(400, "Please input a valid numeric value");
+      return util.send(res);
+    }
+    try {
+      const updateUser = await UserService.updateUser(id, alteredUser);
+      if (!updateUser) {
+        util.setError(404, `Cannot find user with the id: ${id}`);
+      } else {
+        util.setSuccess(200, "User updated", updateUser);
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
+      return util.send(res);
+    }
+  }
+
+  static async deleteUserAccount(req, res) {
+    const id = req.user.id;
 
     if (!Number(id)) {
       util.setError(400, "Please provide a numeric value");
