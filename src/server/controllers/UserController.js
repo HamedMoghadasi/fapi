@@ -17,17 +17,26 @@ class UserController {
     try {
       const theUser = await UserService.getUserByEmail(req.body.email);
       if (theUser) {
-        bcrypt.compare(req.body.password, theUser.password, (error, result) => {
-          if (result) {
-            util.setSuccess(200, "Successfully logined.", {
-              token: JwtHelper.generateToken(theUser),
-            });
-            return util.send(res);
-          } else {
-            util.setError(400, "Password is wrong");
-            return util.send(res);
-          }
-        });
+        if (theUser.isEmailConfirmed) {
+          bcrypt.compare(
+            req.body.password,
+            theUser.password,
+            (error, result) => {
+              if (result) {
+                util.setSuccess(200, "Successfully logined.", {
+                  token: JwtHelper.generateToken(theUser),
+                });
+                return util.send(res);
+              } else {
+                util.setError(400, "Password is wrong");
+                return util.send(res);
+              }
+            }
+          );
+        } else {
+          util.setError(400, "User is not activated");
+          return util.send(res);
+        }
       } else {
         util.setError(400, "There's not exist such a user with this email");
         return util.send(res);
