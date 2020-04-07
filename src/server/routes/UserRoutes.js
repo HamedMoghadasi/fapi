@@ -10,6 +10,11 @@ router.put(
   JwtHelper.authurize(role.Admin),
   UserController.changeState
 );
+router.get(
+  "/:targetState",
+  JwtHelper.authurize(role.Admin),
+  UserController.getUsersByState
+);
 router.get("/", JwtHelper.authurize(role.Admin), UserController.getAllUsers);
 router.get("/:id", JwtHelper.authurize(role.Admin), UserController.getAUser);
 router.put("/:id", JwtHelper.authurize(role.Admin), UserController.updateUser);

@@ -1,9 +1,33 @@
 import database from "../api/models";
 
+const state = require("../constants/userStates");
 class UserService {
   static async getAllUsers() {
     try {
       const users = await database.User.findAll();
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getUsersByState(targetState) {
+    try {
+      let users;
+      if (targetState === state.Active) {
+        users = await database.User.findAll({
+          where: { state: state.Active },
+        });
+      } else if (targetState === state.Suspend) {
+        users = await database.User.findAll({
+          where: { state: state.Suspend },
+        });
+      } else if (targetState === state.Unconfirmed) {
+        users = await database.User.findAll({
+          where: { state: state.Unconfirmed },
+        });
+      }
+
       return users;
     } catch (error) {
       throw error;

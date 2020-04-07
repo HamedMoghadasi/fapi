@@ -19,8 +19,11 @@ class UserController {
       const theUser = await UserService.getUserByEmail(req.body.email);
       if (theUser) {
         if (theUser.isEmailConfirmed) {
-          if (theUser.state === state.Suspend) {
-            util.setError(403, "Your account is suspended.");
+          if (
+            theUser.state === state.Suspend ||
+            theUser.state === state.Unconfirmed
+          ) {
+            util.setError(403, "Your account is not active.");
             return util.send(res);
           }
 
@@ -40,11 +43,39 @@ class UserController {
             }
           );
         } else {
-          util.setError(400, "User is not activated");
+          util.setError(
+            400,
+            "User is not activated.Please confirm your email or contact your administration."
+          );
           return util.send(res);
         }
       } else {
         util.setError(400, "There's not exist such a user with this email");
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async getUsersByState(req, res) {
+    try {
+      var { targetState } = req.params;
+      if (
+        targetState === state.Active ||
+        targetState === state.Suspend ||
+        targetState === state.Unconfirmed
+      ) {
+        const users = await UserService.getUsersByState(targetState);
+        if (users.length > 0) {
+          util.setSuccess(200, `${targetState} users retrieved`, users);
+        } else {
+          util.setSuccess(200, `No user found with this state:${targetState}`);
+        }
+        return util.send(res);
+      } else {
+        util.setError(400, "Passed state is not valid.");
         return util.send(res);
       }
     } catch (error) {
@@ -103,6 +134,7 @@ class UserController {
       } else {
         targetUser.confirmationCode = uuid();
         targetUser.isEmailConfirmed = true;
+        targetUser.state = state.Active;
         const updateUser = await UserService.updateUser(
           targetUser.id,
           targetUser
