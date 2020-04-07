@@ -12,12 +12,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuY
     "username": "xhamedx"
 }
 ###
-POST  http://localhost:3502/api/v1/admin/users/changestate/78
+PUT http://localhost:3502/api/v1/admin/users/changestate/78
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDgwMDAsImV4cCI6MTU4NjI0OTgwMH0.vqoh75AMpuTKXvkMKf3s_Xv7rpBrAm04A-zCVAASDsM
 
 {
-    "state": "Suspend"
+    "state": "Active"
 }
 ###
 POST http://localhost:3502/api/v1/auth/register

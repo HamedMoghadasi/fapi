@@ -10,8 +10,8 @@ export default class JwtHelper {
       username: payload.username,
       email: payload.email,
       role: payload.role,
-      iat: config.jwt.iat,
-      exp: config.jwt.exp,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 60 * 30,
     };
 
     return jwt.sign(data, config.jwt.secret);
