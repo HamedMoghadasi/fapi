@@ -18,6 +18,8 @@ class UserController {
       const theUser = await UserService.getUserByEmail(req.body.email);
       if (theUser) {
         if (theUser.isEmailConfirmed) {
+          console.log(theUser.role);
+
           bcrypt.compare(
             req.body.password,
             theUser.password,

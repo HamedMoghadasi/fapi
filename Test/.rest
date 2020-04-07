@@ -1,21 +1,20 @@
 GET http://localhost:3502/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NjE2NTEyNCwiZXhwIjoxNTg2MTY2OTI0fQ.xRNZ19KDZX-pnvedXnRFJE-LEB6r_lyyHoPxJQPLxsc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDEyMTksImV4cCI6MTU4NjI0MzAxOX0.1zTzrlBqBSI4Er6XsfrEVgHmzV1ps0VjFHmz2ZzLc64
 ###
 
 POST http://localhost:3502/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "email":"h4lmed@gmail.com",
-    "username":"hamedi",
+    "email":"xh4lmed@gmail.com",
+    "username":"xhamed",
     "password": "123456"
 }
 ###
-GET  http://localhost:3502/api/v1/auth/confirmation
+GET  http://localhost:3502/api/v1/auth/confirmation/a8f8794e-25f0-48dd-baa9-7abb1199081d
 ###
 DELETE http://localhost:3502/api/v1/users/45
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NjE2NzA4NywiZXhwIjoxNTg2MTY4ODg3fQ.U644vrJcebscN7irkqVVCW413om11JhyX0yeClguAXc
-
 ###
 
 POST http://localhost:3502/api/v1/auth/login

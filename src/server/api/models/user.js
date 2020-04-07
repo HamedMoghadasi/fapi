@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       confirmationCode: DataTypes.UUID,
       isEmailConfirmed: DataTypes.BOOLEAN,
+      role: DataTypes.STRING,
     },
     {}
   );
