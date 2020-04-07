@@ -215,7 +215,6 @@ class UserController {
   static async updateUserAccount(req, res) {
     const id = req.user.id;
     const alteredUser = req.body;
-    console.log(alteredUser);
 
     if (!Number(id)) {
       util.setError(400, "Please input a valid numeric value");
@@ -254,6 +253,27 @@ class UserController {
       return util.send(res);
     } catch (error) {
       util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async changeState(req, res) {
+    const alteredUser = req.body;
+    const { id } = req.params;
+    if (!Number(id)) {
+      util.setError(400, "Please input a valid numeric value");
+      return util.send(res);
+    }
+    try {
+      const updateUser = await UserService.updateUser(id, alteredUser);
+      if (!updateUser) {
+        util.setError(404, `Cannot find user with the id: ${id}`);
+      } else {
+        util.setSuccess(200, "User state updated", req.body);
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
       return util.send(res);
     }
   }

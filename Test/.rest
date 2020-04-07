@@ -1,7 +1,25 @@
-GET http://localhost:3502/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzcsInVzZXJuYW1lIjoieGhhbWVkIiwiZW1haWwiOiJ4aDRsbWVkQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTg2MjQxNzgwLCJleHAiOjE1ODYyNDM1ODB9.vg9wBCtTssnnau78Hxp5ZvVuuW3PENsSQxoF6SiE7CU
+GET http://localhost:3502/api/v1/admin/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDgwMDAsImV4cCI6MTU4NjI0OTgwMH0.vqoh75AMpuTKXvkMKf3s_Xv7rpBrAm04A-zCVAASDsM
 ###
+GET http://localhost:3502/api/v1/admin/users/78
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDgwMDAsImV4cCI6MTU4NjI0OTgwMH0.vqoh75AMpuTKXvkMKf3s_Xv7rpBrAm04A-zCVAASDsM
+###
+PUT http://localhost:3502/api/v1/admin/users/78
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDgwMDAsImV4cCI6MTU4NjI0OTgwMH0.vqoh75AMpuTKXvkMKf3s_Xv7rpBrAm04A-zCVAASDsM
 
+{
+    "username": "xhamedx"
+}
+###
+POST  http://localhost:3502/api/v1/admin/users/changestate/78
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsInVzZXJuYW1lIjoiaGFtZWQiLCJlbWFpbCI6Img0bG1lZEBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE1ODYyNDgwMDAsImV4cCI6MTU4NjI0OTgwMH0.vqoh75AMpuTKXvkMKf3s_Xv7rpBrAm04A-zCVAASDsM
+
+{
+    "state": "Suspend"
+}
+###
 POST http://localhost:3502/api/v1/auth/register
 Content-Type: application/json
 
@@ -11,7 +29,7 @@ Content-Type: application/json
     "password": "123456"
 }
 ###
-GET  http://localhost:3502/api/v1/auth/confirmation/3ef424b7-455f-4e3b-a2ab-1fa57d5486da
+GET  http://localhost:3502/api/v1/auth/confirmation/7483a2b7-82ba-4d16-9a32-8e5665913e98
 ###
 DELETE http://localhost:3502/api/v1/users/45
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoYW1lZCIsImVtYWlsIjoiaDRsbWVkQGdtYWlsLmNvbSIsImlhdCI6MTU4NjE2NzA4NywiZXhwIjoxNTg2MTY4ODg3fQ.U644vrJcebscN7irkqVVCW413om11JhyX0yeClguAXc
@@ -21,7 +39,7 @@ POST http://localhost:3502/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email": "xh4lmed@gmail.com",
+    "email": "h4lmed@gmail.com",
     "password": "123456"
 }
 ###

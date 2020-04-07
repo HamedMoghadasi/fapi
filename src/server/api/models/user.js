@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       confirmationCode: DataTypes.UUID,
       isEmailConfirmed: DataTypes.BOOLEAN,
       role: DataTypes.STRING,
+      state: DataTypes.STRING,
     },
     {}
   );
