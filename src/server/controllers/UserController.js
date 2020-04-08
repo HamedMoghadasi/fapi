@@ -2,6 +2,7 @@ import UserService from "../services/UserService";
 import Util from "../utils/Utils";
 import JwtHelper from "../utils/Jwt";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 
 import MailService from "../services/MailService";
 import uuid from "uuid/v4";
@@ -10,7 +11,8 @@ import UserActivityLogService from "../services/UserActivityLogService";
 const util = new Util();
 const state = require("../constants/userStates");
 const userActivity = require("../constants/userActivity");
-
+dotenv.config();
+const url = process.env.HOST_URL;
 class UserController {
   static async logout(req, res) {
     try {
@@ -131,7 +133,6 @@ class UserController {
     try {
       const createdUser = await UserService.addUser(newUser);
 
-      var url = `${req.protocol}://${req.headers.host}`;
       MailService.Send(createdUser.email, createdUser.confirmationCode, url);
 
       util.setSuccess(201, "User Added!", createdUser);
@@ -329,6 +330,71 @@ class UserController {
     } catch (error) {
       util.setError(404, error);
       return util.send(res);
+    }
+  }
+
+  static async changePasswordFromProfile(req, res) {
+    const user = req.user;
+    const newPassword = req.body.newPassword;
+    if (!Number(user.id)) {
+      util.setError(400, "User not found");
+      return util.send(res);
+    } else if (newPassword.length < 0 || newPassword === undefined) {
+      util.setError(400, "Invalid input for new password.");
+      return util.send(res);
+    }
+    try {
+      const updateUserPassword = await UserService.changePasswordFromProfile(
+        user,
+        newPassword
+      );
+
+      if (!updateUserPassword) {
+        util.setError(500, `Opration Failed.`);
+      } else {
+        util.setSuccess(200, "Successfull, You Password changed.");
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
+      return util.send(res);
+    }
+  }
+
+  static async sendMail(req, res) {
+    MailService.SendResetPassword("h4lmed@gmail.com", "123456");
+  }
+  static async resetAUserPasswordByAdmin(req, res) {
+    const userId = req.body.userId;
+    if (!Number(userId)) {
+      util.setError(400, "Bad request");
+      return util.send(res);
+    } else {
+      var targetedUser = await UserService.getAUser(userId);
+      if (targetedUser) {
+        try {
+          const newPassword = await UserService.resetAUserPasswordByAdmin(
+            targetedUser
+          );
+
+          if (!newPassword) {
+            util.setError(500, `Opration Failed. Please try again.`);
+          } else {
+            MailService.SendResetPassword(targetedUser.email, newPassword);
+            util.setSuccess(
+              200,
+              "Successfull, A message send to your email address, check it out."
+            );
+          }
+          return util.send(res);
+        } catch (error) {
+          util.setError(404, error);
+          return util.send(res);
+        }
+      } else {
+        util.setError(400, "User not found");
+        return util.send(res);
+      }
     }
   }
 }

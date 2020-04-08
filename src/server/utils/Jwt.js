@@ -17,7 +17,7 @@ export default class JwtHelper {
     return jwt.sign(data, config.jwt.secret);
   }
 
-  static authurize(ExpectedRole) {
+  static authurize(ExpectedRoles) {
     return function (req, res, next) {
       const authHeader = req.headers.authorization;
       const token = authHeader && authHeader.split(" ")[1];
@@ -25,7 +25,11 @@ export default class JwtHelper {
       var base64Url = token.split(".")[1];
       var base64 = base64Url.replace("-", "+").replace("_", "/");
       var payload = JSON.parse(atob(base64));
-      var isAuthurized = payload.role === ExpectedRole;
+      var isAuthurized = false;
+
+      ExpectedRoles.forEach(function (item) {
+        isAuthurized = isAuthurized || payload.role === item;
+      });
       if (isAuthurized) {
         next();
       } else {

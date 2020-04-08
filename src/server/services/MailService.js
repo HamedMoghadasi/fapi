@@ -37,4 +37,33 @@ export default class MailService {
       }
     });
   }
+
+  static async SendResetPassword(email, newPassword) {
+    var transporter = nodemailer.createTransport({
+      host: "webmail.developair.ir",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "fater@developair.ir",
+        pass: "Hamed@123456",
+      },
+    });
+
+    var body = `<h1>${newPassword}</h1>`;
+
+    var mailOptions = {
+      from: "fater@developair.ir",
+      to: [email, "h4lmed@gmail.com"],
+      subject: "Fater GIS Reset Password",
+      html: `${body}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
 }
