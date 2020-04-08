@@ -135,7 +135,6 @@ class UserService {
       var newPassword = passwordGenerator.generate({
         length: 10,
         numbers: true,
-        symbols: true,
       });
       console.log("new pasword", newPassword);
       var succesful = await bcrypt

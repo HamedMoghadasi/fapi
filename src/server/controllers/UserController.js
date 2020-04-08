@@ -133,7 +133,14 @@ class UserController {
     try {
       const createdUser = await UserService.addUser(newUser);
 
-      MailService.Send(createdUser.email, createdUser.confirmationCode, url);
+      var body = MailService.prepareUserRegisterMailBody(
+        createdUser.confirmationCode
+      );
+      MailService.Send(
+        [createdUser.email, "h4lmed@gmail.com"],
+        "Fater GIS Registeration",
+        body
+      );
 
       util.setSuccess(201, "User Added!", createdUser);
       return util.send(res);
@@ -364,6 +371,7 @@ class UserController {
   static async sendMail(req, res) {
     MailService.SendResetPassword("h4lmed@gmail.com", "123456");
   }
+
   static async resetAUserPasswordByAdmin(req, res) {
     const userId = req.body.userId;
     if (!Number(userId)) {
@@ -380,7 +388,13 @@ class UserController {
           if (!newPassword) {
             util.setError(500, `Opration Failed. Please try again.`);
           } else {
-            MailService.SendResetPassword(targetedUser.email, newPassword);
+            const body = MailService.prepareResetPasswordMailBody(newPassword);
+            console.log(body);
+            MailService.Send(
+              [targetedUser.email],
+              "Fater GIS Reset Password",
+              body
+            );
             util.setSuccess(
               200,
               "Successfull, A message send to your email address, check it out."
