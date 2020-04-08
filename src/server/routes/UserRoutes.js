@@ -11,7 +11,7 @@ router.put(
   UserController.changeState
 );
 router.get(
-  "/:targetState",
+  "/getByState/:targetState",
   JwtHelper.authurize([role.Admin]),
   UserController.getUsersByState
 );
