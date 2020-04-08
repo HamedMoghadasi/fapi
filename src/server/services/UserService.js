@@ -158,6 +158,35 @@ class UserService {
       throw new Error();
     }
   }
+
+  static async forgetPassword(user) {
+    try {
+      var newPassword = passwordGenerator.generate({
+        length: 10,
+        numbers: true,
+      });
+      console.log("new pasword", newPassword);
+      var succesful = await bcrypt
+        .hash(newPassword, 15)
+        .then((hash) => {
+          user.password = hash;
+          database.User.update(user, { where: { id: Number(user.id) } });
+
+          return newPassword;
+        })
+        .catch((err) => {
+          throw new Error();
+        });
+
+      if (succesful) {
+        return newPassword;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      throw new Error();
+    }
+  }
 }
 
 export default UserService;
