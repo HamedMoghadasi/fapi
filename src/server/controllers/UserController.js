@@ -53,11 +53,6 @@ class UserController {
             (error, result) => {
               if (result) {
                 let token = JwtHelper.generateToken(theUser);
-                res.cookie("token", token, {
-                  expires: new Date(Date.now() + 60 * 31),
-                  secure: false, // set to true if your using https
-                  httpOnly: true,
-                });
                 util.setSuccess(200, "Successfully logined.", {
                   token: token,
                 });

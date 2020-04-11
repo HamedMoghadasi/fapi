@@ -7,7 +7,6 @@ import userProfileRoutes from "./server/routes/UserProfileRouter";
 import userActivityLogRoutes from "./server/routes/UserActivityLogRouter";
 import JwtHelper from "./server/utils/Jwt";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 
 var app = new express();
 dotenv.config();
@@ -26,7 +25,6 @@ const corsConfig =
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(corsConfig));
-app.use(cookieParser());
 
 var port = process.env.PORT || 3502;
 
@@ -41,11 +39,6 @@ app.use("/api/v1/profile/user", JwtHelper.validateToken, userProfileRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on PORT :: ${port}`);
-});
-
-app.get("/cookies", function (req, res) {
-  res.cookie("name", "express").send("cookie set");
-  console.log(req.cookies);
 });
 
 export default app;
