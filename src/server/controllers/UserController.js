@@ -31,19 +31,19 @@ class UserController {
 
   static async login(req, res) {
     if (!req.body.email || !req.body.password) {
-      util.setError(400, "Please provide complete details");
+      util.setError(400, "Please provide complete details", { code: 4001 });
       return util.send(res);
     }
     try {
       const theUser = await UserService.getUserByEmail(req.body.email);
-      await UserActivityLogService.Log(userActivity.Login, theUser.id);
       if (theUser) {
+        await UserActivityLogService.Log(userActivity.Login, theUser.id);
         if (theUser.isEmailConfirmed) {
           if (
             theUser.state === state.Suspend ||
             theUser.state === state.Unconfirmed
           ) {
-            util.setError(403, "Your account is not active.");
+            util.setError(403, "Your account is not active.", { code: 4031 });
             return util.send(res);
           }
 
@@ -59,7 +59,7 @@ class UserController {
 
                 return util.send(res);
               } else {
-                util.setError(400, "Password is wrong");
+                util.setError(400, "Password is wrong", { code: 4002 });
                 return util.send(res);
               }
             }
@@ -72,7 +72,9 @@ class UserController {
           return util.send(res);
         }
       } else {
-        util.setError(400, "There's not exist such a user with this email");
+        util.setError(400, "There's not exist such a user with this email", {
+          code: 4003,
+        });
         return util.send(res);
       }
     } catch (error) {

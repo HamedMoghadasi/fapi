@@ -5,7 +5,6 @@ dotenv.config();
 const url = process.env.HOST_URL;
 export default class MailService {
   static async Send(emails, subject, body) {
-    emails.push("h4lmed@gmail.com");
     console.log(emails);
     var transporter = nodemailer.createTransport({
       host: "webmail.developair.ir",

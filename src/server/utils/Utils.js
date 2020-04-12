@@ -18,20 +18,28 @@ export default class Util {
     this.message = message;
     this.type = "error";
   }
+  setError(statusCode, message, data) {
+    this.statusCode = statusCode;
+    this.message = message;
+    this.data = data;
+    this.type = "error";
+  }
 
   send(res) {
     const result = {
       status: this.type,
       message: this.message,
-      data: this.data
+      data: this.data,
     };
 
     if (this.type === "success") {
       return res.status(this.statusCode).json(result);
+    } else if (this.data) {
+      return res.status(this.statusCode).json(result);
     }
     return res.status(this.statusCode).json({
       status: this.type,
-      message: this.message
+      message: this.message,
     });
   }
 }
