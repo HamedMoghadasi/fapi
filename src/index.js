@@ -7,6 +7,7 @@ import userProfileRoutes from "./server/routes/UserProfileRouter";
 import userActivityLogRoutes from "./server/routes/UserActivityLogRouter";
 import JwtHelper from "./server/utils/Jwt";
 import cors from "cors";
+import CaptchaController from "./server/controllers/CaptchaController";
 
 var app = new express();
 dotenv.config();
@@ -18,7 +19,7 @@ const corsConfig =
         credentials: true,
       }
     : {
-        origin: "https://our-website.com",
+        origin: "http://localhost:3000",
         credentials: true,
       };
 
@@ -28,6 +29,7 @@ app.use(cors(corsConfig));
 
 var port = process.env.PORT || 3502;
 
+app.get("/api/v1/captcha", CaptchaController.Get);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/admin/users", JwtHelper.validateToken, userRoutes);
 app.use(

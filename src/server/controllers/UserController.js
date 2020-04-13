@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import MailService from "../services/MailService";
 import uuid from "uuid/v4";
 import UserActivityLogService from "../services/UserActivityLogService";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const util = new Util();
 const state = require("../constants/userStates");
@@ -30,8 +33,14 @@ class UserController {
   }
 
   static async login(req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password || !req.body.captcha) {
       util.setError(400, "Please provide complete details", { code: 4001 });
+      return util.send(res);
+    } else if (
+      req.body.captcha.indexOf(process.env.CAPTCHA_SECRET) === -1 ||
+      req.body.captcha.length !== 64
+    ) {
+      util.setError(400, "Captcha is not valid", { code: 4001 });
       return util.send(res);
     }
     try {
@@ -142,7 +151,11 @@ class UserController {
         body
       );
 
-      util.setSuccess(201, "User Added!", createdUser);
+      util.setSuccess(
+        201,
+        `Successfull! \n A confirmation email send for you.`,
+        createdUser
+      );
       return util.send(res);
     } catch (error) {
       util.setError(400, error.errors[0].message);
