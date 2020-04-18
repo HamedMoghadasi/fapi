@@ -13,7 +13,6 @@ class CaptchaController {
         .hash(captcha.text, 5)
         .then((hash) => {
           captcha.text = hash;
-          console.log(`${hash}hM73`.length);
           util.setSuccess(200, "Succefull!", {
             captcha: { token: captcha.text, svg: captcha.data },
           });

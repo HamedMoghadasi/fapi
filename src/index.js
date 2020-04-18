@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(corsConfig));
 
-var port = process.env.PORT || 3502;
+var port = process.env.PORT || 3505;
 
 app.get("/api/v1/captcha", CaptchaController.Get);
 app.use("/api/v1/auth", authRoutes);

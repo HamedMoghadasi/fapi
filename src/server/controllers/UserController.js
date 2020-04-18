@@ -453,6 +453,29 @@ class UserController {
       }
     }
   }
+
+  static verifyUser(req, res) {
+    try {
+      const token = req.body.token;
+
+      if (!token) {
+        util.setError(403, "Token is not valid");
+        return util.send(res);
+      } else {
+        const result = JwtHelper.VerifyToken(token);
+        if (result.isValid) {
+          util.setSuccess(200, "Verified !", result);
+        } else {
+          util.setError(403, "Access Denied");
+        }
+      }
+
+      util.send(res);
+    } catch (error) {
+      util.setError(403, "Access Denied");
+      return util.send(res);
+    }
+  }
 }
 
 export default UserController;

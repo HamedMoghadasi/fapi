@@ -10,5 +10,6 @@ router.post("/logout", JwtHelper.validateToken, UserController.logout);
 router.post("/register", UserController.addUser);
 router.post("/forgetPassword", UserController.forgetPassword);
 router.get("/confirmation/:code", UserController.confirmUser);
+router.post("/verifyUser", UserController.verifyUser);
 
 export default router;

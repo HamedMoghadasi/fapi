@@ -46,9 +46,19 @@ export default class JwtHelper {
 
     jwt.verify(token, config.jwt.secret, (err, user) => {
       if (err) return res.sendStatus(403);
-
       req.user = user;
       next();
+    });
+  }
+
+  static VerifyToken(accessToken) {
+    const token = accessToken;
+
+    if (token === null) return res.sendStatus(401);
+
+    return jwt.verify(token, config.jwt.secret, (err, user) => {
+      if (err) return { isValid: false, role: "" };
+      return { isValid: true, role: user.role };
     });
   }
 }
