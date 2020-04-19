@@ -33,8 +33,16 @@ class UserController {
   }
 
   static async login(req, res) {
-    if (!req.body.email || !req.body.password || !req.body.captcha) {
-      util.setError(400, "Please provide complete details", { code: 4001 });
+    if (
+      !req.body.email ||
+      !req.body.password ||
+      !req.body.rememberMe ||
+      !req.body.captcha
+    ) {
+      util.setError(400, "Please provide complete details", {
+        code: 4001,
+        body: req.body,
+      });
       return util.send(res);
     } else if (
       req.body.captcha.indexOf(process.env.CAPTCHA_SECRET) === -1 ||
@@ -45,6 +53,7 @@ class UserController {
     }
     try {
       const theUser = await UserService.getUserByEmail(req.body.email);
+      theUser.rememberMe = req.body.rememberMe === "true";
       if (theUser) {
         await UserActivityLogService.Log(userActivity.Login, theUser.id);
         if (theUser.isEmailConfirmed) {
@@ -464,6 +473,29 @@ class UserController {
       } else {
         const result = JwtHelper.VerifyToken(token);
         if (result.isValid) {
+          util.setSuccess(200, "Verified !", result);
+        } else {
+          util.setError(403, "Access Denied");
+        }
+      }
+
+      util.send(res);
+    } catch (error) {
+      util.setError(403, "Access Denied");
+      return util.send(res);
+    }
+  }
+
+  static getAuthenticatedUser(req, res) {
+    try {
+      const token = req.body.token;
+
+      if (!token) {
+        util.setError(403, "Token is not valid");
+        return util.send(res);
+      } else {
+        const result = JwtHelper.GetCurrentUserByToken(token);
+        if (Object.keys(result).length > 0) {
           util.setSuccess(200, "Verified !", result);
         } else {
           util.setError(403, "Access Denied");

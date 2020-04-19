@@ -12,4 +12,6 @@ router.post("/forgetPassword", UserController.forgetPassword);
 router.get("/confirmation/:code", UserController.confirmUser);
 router.post("/verifyUser", UserController.verifyUser);
 
+router.post("/getAuthenticatedUser", UserController.getAuthenticatedUser);
+
 export default router;
