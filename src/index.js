@@ -32,7 +32,7 @@ var port = process.env.PORT || 3505;
 
 app.get("/api/v1/captcha", CaptchaController.Get);
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/jwt/expiration", jwtRoutes);
+app.use("/api/v1/jwt/expiration", JwtHelper.validateToken, jwtRoutes);
 app.use("/api/v1/admin/users", JwtHelper.validateToken, userRoutes);
 app.use(
   "/api/v1/admin/UserActivityLogs",

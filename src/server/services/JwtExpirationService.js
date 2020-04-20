@@ -36,6 +36,15 @@ class JwtExpirationService {
       throw error;
     }
   }
+  static async add(newSetting) {
+    try {
+      return database.JWTExpirationSetting.create(newSetting).catch((error) => {
+        throw error;
+      });
+    } catch (error) {
+      throw error.detail;
+    }
+  }
 }
 
 export default JwtExpirationService;
