@@ -70,12 +70,13 @@ class UserController {
             theUser.password,
             (error, result) => {
               if (result) {
-                let token = JwtHelper.generateToken(theUser);
-                util.setSuccess(200, "Successfully logined.", {
-                  token: token,
-                });
+                JwtHelper.generateToken(theUser).then((token) => {
+                  util.setSuccess(200, "Successfully logined.", {
+                    token: token,
+                  });
 
-                return util.send(res);
+                  return util.send(res);
+                });
               } else {
                 util.setError(400, "Password is wrong", { code: 4002 });
                 return util.send(res);

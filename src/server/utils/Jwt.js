@@ -1,11 +1,12 @@
 import * as jwt from "jsonwebtoken";
 import config from "../api/config/config";
+import JwtExpirationService from "../services/JwtExpirationService";
 
 var atob = require("atob");
 
 export default class JwtHelper {
-  static generateToken(payload) {
-    console.log(payload.rememberMe);
+  static async generateToken(payload) {
+    const jwtExpiration = await JwtExpirationService.getExpirationSettings();
 
     const data = {
       id: payload.id,
@@ -13,11 +14,12 @@ export default class JwtHelper {
       email: payload.email,
       role: payload.role,
       iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 60 * 30,
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * jwtExpiration.default, // hour
     };
     if (payload.rememberMe) {
       console.log("remembered");
-      data.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7;
+      data.exp =
+        Math.floor(Date.now() / 1000) + 60 * 60 * 24 * jwtExpiration.remembered; //day
     }
 
     return jwt.sign(data, config.jwt.secret);
