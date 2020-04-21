@@ -16,11 +16,11 @@ dotenv.config();
 const corsConfig =
   process.env.NODE_ENV !== "production"
     ? {
-        origin: "http://localhost:3000",
+        origin: [process.env.CORS_ORIGIN_Localhost, process.env.CORS_ORIGIN_IP],
         credentials: true,
       }
     : {
-        origin: "http://localhost:3000",
+        origin: [process.env.CORS_ORIGIN_Localhost, process.env.CORS_ORIGIN_IP],
         credentials: true,
       };
 
