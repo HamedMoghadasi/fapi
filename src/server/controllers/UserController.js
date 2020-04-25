@@ -59,7 +59,8 @@ class UserController {
         if (theUser.isEmailConfirmed) {
           if (
             theUser.state === state.Suspend ||
-            theUser.state === state.Unconfirmed
+            theUser.state === state.Unconfirmed ||
+            theUser.state === state.Deleted
           ) {
             util.setError(403, "Your account is not active.", { code: 4031 });
             return util.send(res);
