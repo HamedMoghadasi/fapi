@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import database from "../api/models";
 import passwordGenerator from "generate-password";
+import { stat } from "fs";
 
 const state = require("../constants/userStates");
 class UserService {
@@ -105,7 +106,8 @@ class UserService {
       });
 
       if (userToDelete) {
-        const deletedUser = await database.User.destroy({
+        userToDelete.state = state.Deleted;
+        const deletedUser = await database.User.update(userToDelete, {
           where: { id: Number(id) },
         });
         return deletedUser;

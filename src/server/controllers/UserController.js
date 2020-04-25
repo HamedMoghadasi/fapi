@@ -449,7 +449,8 @@ class UserController {
             );
             util.setSuccess(
               200,
-              "Successfull, A message send to your email address, check it out."
+              "Successfull, A message send to your email address, check it out.",
+              newPassword
             );
           }
           return util.send(res);

@@ -80,6 +80,26 @@ class UserActivityLogController {
       return util.send(res);
     }
   }
+
+  static async getAll(req, res) {
+    try {
+      let logs;
+
+      logs = await UserActivityLogService.getAll();
+
+      if (logs.length > 0) {
+        util.setSuccess(200, `users logs retrieved successfully`, logs);
+      } else {
+        util.setSuccess(200, `No logs found.`);
+      }
+      return util.send(res);
+    } catch (error) {
+      console.error(error);
+
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
 }
 
 export default UserActivityLogController;

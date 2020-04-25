@@ -18,6 +18,12 @@ router.get(
 );
 
 router.get(
+  "/",
+  JwtHelper.authurize([role.Admin]),
+  UserActivityLogController.getAll
+);
+
+router.get(
   "/ByUserId/:id",
   JwtHelper.authurize([role.Admin]),
   UserActivityLogController.getLogsByUserId

@@ -48,6 +48,15 @@ class UserActivityLogService {
       throw error;
     }
   }
+  static async getAll() {
+    try {
+      let logs = await database.UserActivityLog.findAll({});
+
+      return logs;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async getLogsByActivity(activity) {
     try {
       let logs;
