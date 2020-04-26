@@ -118,18 +118,28 @@ class UserService {
     }
   }
 
-  static async changePasswordFromProfile(user, newPassword) {
-    return await bcrypt
-      .hash(newPassword, 15)
-      .then((hash) => {
-        user.password = hash;
-        database.User.update(user, { where: { id: Number(user.id) } });
+  static async changePasswordFromProfile(user, oldPassword, newPassword) {
+    const currentUser = await database.User.findOne({
+      where: { id: Number(user.id) },
+    });
 
-        return user;
-      })
-      .catch((err) => {
-        throw new Error();
-      });
+    var isMatch = bcrypt.compareSync(oldPassword, currentUser.password);
+
+    if (isMatch) {
+      return await bcrypt
+        .hash(newPassword, 15)
+        .then((hash) => {
+          user.password = hash;
+          database.User.update(user, { where: { id: Number(user.id) } });
+
+          return user;
+        })
+        .catch((err) => {
+          throw new Error();
+        });
+    } else {
+      throw new Error("Password is not match");
+    }
   }
 
   static async resetAUserPasswordByAdmin(user) {

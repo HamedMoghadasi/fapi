@@ -366,28 +366,36 @@ class UserController {
 
   static async changePasswordFromProfile(req, res) {
     const user = req.user;
+    const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
+
     if (!Number(user.id)) {
       util.setError(400, "User not found");
       return util.send(res);
     } else if (newPassword.length < 0 || newPassword === undefined) {
       util.setError(400, "Invalid input for new password.");
       return util.send(res);
+    } else if (oldPassword.length < 0 || oldPassword === undefined) {
+      util.setError(400, "Invalid input for old password.");
+      return util.send(res);
     }
     try {
       const updateUserPassword = await UserService.changePasswordFromProfile(
         user,
+        oldPassword,
         newPassword
       );
 
       if (!updateUserPassword) {
         util.setError(500, `Opration Failed.`);
       } else {
-        util.setSuccess(200, "Successfull, You Password changed.");
+        util.setSuccess(200, "Successfull! Your Password changed.");
       }
       return util.send(res);
     } catch (error) {
-      util.setError(404, error);
+      console.log(error);
+
+      util.setError(400, error);
       return util.send(res);
     }
   }
