@@ -53,9 +53,11 @@ class UserController {
     }
     try {
       const theUser = await UserService.getUserByEmail(req.body.email);
-      theUser.rememberMe = req.body.rememberMe === "true";
+
       if (theUser) {
         await UserActivityLogService.Log(userActivity.Login, theUser.id);
+        theUser.rememberMe = req.body.rememberMe === "true";
+
         if (theUser.isEmailConfirmed) {
           if (
             theUser.state === state.Suspend ||
@@ -98,6 +100,7 @@ class UserController {
         return util.send(res);
       }
     } catch (error) {
+      console.log(error);
       util.setError(400, error);
       return util.send(res);
     }
