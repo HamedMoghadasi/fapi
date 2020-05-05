@@ -2,7 +2,7 @@ require("dotenv").config();
 
 module.exports = {
   development: {
-    database: "faterDb_dev2",
+    database: "faterGIS_dev",
     username: "postgres",
     password: "0017169461hamed",
     host: "localhost",

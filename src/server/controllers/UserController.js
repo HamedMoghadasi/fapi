@@ -154,22 +154,28 @@ class UserController {
     const newUser = req.body;
 
     try {
-      const createdUser = await UserService.addUser(newUser);
+      const userExisted = await UserService.IsUserExist(newUser);
+      if (userExisted) {
+        if (newUser.email === userExisted.email) {
+          util.setError(400, `Email must be unique`);
+        } else if (newUser.username === userExisted.username) {
+          util.setError(400, `Username must be unique`);
+        }
+      } else {
+        const createdUser = await UserService.addUser(newUser);
 
-      var body = MailService.prepareUserRegisterMailBody(
-        createdUser.confirmationCode
-      );
-      MailService.Send(
-        [createdUser.email, "h4lmed@gmail.com"],
-        "Fater GIS Registeration",
-        body
-      );
+        var body = MailService.prepareUserRegisterMailBody(
+          createdUser.confirmationCode
+        );
+        MailService.Send([createdUser.email], "Fater GIS Registeration", body);
 
-      util.setSuccess(
-        201,
-        `Successfull! \n A confirmation email send for you.`,
-        createdUser
-      );
+        util.setSuccess(
+          201,
+          `Successfull! \n A confirmation email send for you.`,
+          createdUser
+        );
+      }
+
       return util.send(res);
     } catch (error) {
       util.setError(400, error.errors[0].message);

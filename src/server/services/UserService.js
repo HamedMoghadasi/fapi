@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import database from "../api/models";
 import passwordGenerator from "generate-password";
 import { stat } from "fs";
+const { Op } = require("sequelize");
 
 const state = require("../constants/userStates");
 class UserService {
@@ -32,6 +33,25 @@ class UserService {
       }
 
       return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async IsUserExist(newUser) {
+    try {
+      const user = await database.User.findOne({
+        where: {
+          [Op.or]: {
+            email: newUser.email,
+            username: newUser.username,
+          },
+          state: { [Op.not]: state.Deleted },
+        },
+      }).catch((error) => {
+        throw error;
+      });
+      return user;
     } catch (error) {
       throw error;
     }
@@ -90,7 +110,12 @@ class UserService {
   static async getUserByEmail(email) {
     try {
       const theUser = await database.User.findOne({
-        where: { email: email },
+        where: {
+          [Op.and]: {
+            email: email,
+            state: { [Op.not]: state.Deleted },
+          },
+        },
       });
 
       return theUser;
