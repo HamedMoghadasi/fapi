@@ -76,12 +76,16 @@ export default class JwtHelper {
     if (token === null) return res.sendStatus(401);
 
     return jwt.verify(token, config.jwt.secret, (err, user) => {
+      console.log(user);
+
       if (err) return {};
       return {
         id: user.id,
         username: user.username,
         email: user.email,
         role: user.role,
+        iat: user.iat,
+        exp: user.exp,
       };
     });
   }
