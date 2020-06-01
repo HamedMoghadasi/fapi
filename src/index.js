@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoutes from "./server/routes/UserRoutes";
 import authRoutes from "./server/routes/AuthRouter";
 import jwtRoutes from "./server/routes/JWTRouter";
+import locationRoutes from "./server/routes/LocationRoute";
 import userProfileRoutes from "./server/routes/UserProfileRouter";
 import userActivityLogRoutes from "./server/routes/UserActivityLogRouter";
 import JwtHelper from "./server/utils/Jwt";
@@ -31,6 +32,7 @@ app.use(cors(corsConfig));
 var port = process.env.PORT || 3505;
 
 app.get("/api/v1/captcha", CaptchaController.Get);
+app.use("/api/v1/Location", locationRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/jwt/expiration", JwtHelper.validateToken, jwtRoutes);
 app.use("/api/v1/admin/users", JwtHelper.validateToken, userRoutes);
