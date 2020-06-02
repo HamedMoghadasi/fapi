@@ -11,11 +11,7 @@ router.get(
   LocationController.getAll
 );
 
-router.get(
-  "/find",
-  JwtHelper.authurize([role.Admin, role.User]),
-  LocationController.find
-);
+router.post("/find", LocationController.find);
 
 router.put(
   "/:id",
