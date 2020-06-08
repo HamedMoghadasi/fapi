@@ -37,7 +37,7 @@ var port = process.env.PORT || 3505;
 app.use("/static", express.static(__dirname + "/server/assets"));
 app.get("/api/v1/captcha", CaptchaController.Get);
 app.use("/api/v1/Location", locationRoutes);
-app.use("/api/v1/basMapServer", baseMapServerRouter);
+app.use("/api/v1/baseMapServer", baseMapServerRouter);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/jwt/expiration", JwtHelper.validateToken, jwtRoutes);
 app.use("/api/v1/admin/users", JwtHelper.validateToken, userRoutes);

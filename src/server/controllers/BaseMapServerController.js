@@ -74,6 +74,8 @@ class BaseMapServerController {
         newBaseMapServer.imageName = req.file.filename;
         var result = await BaseMapServerService.add(newBaseMapServer);
         if (result) {
+          result.imageName = `${process.env.HOST_URL}/static/images/baselayers/${result.imageName}`;
+
           util.setSuccess(200, "Successfully Added.", result);
           return util.send(res);
         } else {
