@@ -29,8 +29,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(corsConfig));
 
+console.log("__dirname", __dirname);
+
 var port = process.env.PORT || 3505;
 
+app.use("/static", express.static(__dirname + "/server/assets"));
 app.get("/api/v1/captcha", CaptchaController.Get);
 app.use("/api/v1/Location", locationRoutes);
 app.use("/api/v1/auth", authRoutes);
