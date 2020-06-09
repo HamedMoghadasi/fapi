@@ -61,11 +61,13 @@ class BaseMapServerController {
   static async add(req, res) {
     try {
       const newBaseMapServer = req.body;
+      console.log("newBaseMapServer :>> ", newBaseMapServer);
 
       if (
         !newBaseMapServer.url ||
         !newBaseMapServer.name ||
         !newBaseMapServer.description ||
+        !newBaseMapServer.maxZoom ||
         !req.file
       ) {
         util.setError(400, "Please provide complete details.");
@@ -73,9 +75,8 @@ class BaseMapServerController {
       } else {
         newBaseMapServer.imageName = req.file.filename;
         var result = await BaseMapServerService.add(newBaseMapServer);
+        result.imageName = `${process.env.HOST_URL}/static/images/baselayers/${result.imageName}`;
         if (result) {
-          result.imageName = `${process.env.HOST_URL}/static/images/baselayers/${result.imageName}`;
-
           util.setSuccess(200, "Successfully Added.", result);
           return util.send(res);
         } else {
@@ -105,6 +106,9 @@ class BaseMapServerController {
         id,
         newupdatedBaseMapServer
       );
+      if (updatedBaseMapServerResult.imageName) {
+        updatedBaseMapServerResult.imageName = `${process.env.HOST_URL}/static/images/baselayers/${updatedBaseMapServerResult.imageName}`;
+      }
 
       if (!updatedBaseMapServerResult) {
         util.setError(400, `Cannot find baseMapServer with the id: ${id}`);
