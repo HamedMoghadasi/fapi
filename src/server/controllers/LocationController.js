@@ -1,6 +1,6 @@
 import Util from "../utils/Utils";
 import dotenv from "dotenv";
-import LocationService from "../services/locationServices";
+import LocationService from "../services/LocationServices";
 
 dotenv.config();
 
