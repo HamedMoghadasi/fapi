@@ -7,25 +7,25 @@ const role = require("../constants/roles");
 
 router.get(
   "/",
-  JwtHelper.authurize([role.Admin, role.User]),
+  JwtHelper.authurize([role.Admin, role.User, role.Manager, role.SuperManager]),
   UserController.getUserAccount
 );
 
 router.put(
   "/",
-  JwtHelper.authurize([role.Admin, role.User]),
+  JwtHelper.authurize([role.Admin, role.User, role.Manager, role.SuperManager]),
   UserController.updateUserAccount
 );
 
 router.delete(
   "/",
-  JwtHelper.authurize([role.Admin, role.User]),
+  JwtHelper.authurize([role.Admin, role.User, role.Manager, role.SuperManager]),
   UserController.deleteUserAccount
 );
 
 router.post(
   "/ChangePassword",
-  JwtHelper.authurize([role.Admin, role.User]),
+  JwtHelper.authurize([role.Admin, role.User, role.Manager, role.SuperManager]),
   UserController.changePasswordFromProfile
 );
 

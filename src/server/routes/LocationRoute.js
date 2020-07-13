@@ -7,7 +7,7 @@ const role = require("../constants/roles");
 
 router.get(
   "/",
-  JwtHelper.authurize([role.Admin, role.User]),
+  JwtHelper.authurize([role.Admin, role.User, role.Manager, role.SuperManager]),
   LocationController.getAll
 );
 
