@@ -13,11 +13,21 @@ import userActivityLogRoutes from "./server/routes/UserActivityLogRouter";
 import JwtHelper from "./server/utils/Jwt";
 import cors from "cors";
 import CaptchaController from "./server/controllers/CaptchaController";
-import { init as initHeatMapServer } from "./server/modules/heatMapFetcher/heatMapFetcherModule";
+import {
+  init as initHeatMapServer,
+  generateUrl,
+} from "./server/modules/heatMapFetcher/heatMapFetcherModule";
 
 var app = new express();
 dotenv.config();
 initHeatMapServer();
+generateUrl(162098544, {
+  parameter: "AOT",
+  location: "world",
+  satellite: "",
+}).then((value) => {
+  console.log("generateUrl :>> ", value);
+});
 
 global.__basedir = __dirname;
 

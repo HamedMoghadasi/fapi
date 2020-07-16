@@ -37,10 +37,13 @@ export const getTimeDirectories = (basePath, params) => {
 };
 
 function findTimeNode(all, target) {
-  all = _.sortBy(all, (item) => item.time);
+  all = _.sortBy(all, (item) => item.timespan);
+  console.log("all :>> ", all);
 
-  var greater = all.filter((item) => item.time >= target);
-  var less = all.filter((item) => item.time <= target);
+  var greater = all.filter((item) => item.timespan >= target);
+  console.log("greater :>> ", greater);
+  var less = all.filter((item) => item.timespan <= target);
+  console.log("less :>> ", less);
   var result = less[less.length - 1];
 
   if (!greater.length || !less.length) {
@@ -51,14 +54,45 @@ function findTimeNode(all, target) {
   }
 }
 
-export const generateUrl = (timestamp, basePath, params) => {
-  var timeNode = findTimeNode(getTimeDirectories(basePath, params), timestamp);
+export const getTimeDirectoriesByParams = async (
+  parameter,
+  location,
+  satellite
+) => {
+  var directories = await HeatMapServerController.__findAllByParams(
+    parameter,
+    location,
+    satellite
+  );
+  return directories;
+};
+
+export const generateUrl = async (timestamp, params) => {
+  var all = await getTimeDirectoriesByParams(
+    params.parameter,
+    params.location,
+    params.satellite
+  );
+
+  var timeNode = findTimeNode(all, timestamp);
+
   let url = "";
   if (timeNode) {
-    if (timeNode.name && timeNode.location && timeNode.satellite) {
-      url = `${timeNode.name}/${timeNode.location}/${timeNode.satellite}/${timeNode.time}`;
-    } else if (timeNode.name && timeNode.location && !timeNode.satellite) {
-      url = `${timeNode.name}/${timeNode.location}/${timeNode.time}`;
+    console.log("--- timeNode :>> ", timeNode);
+    if (
+      timeNode.parameter &&
+      timeNode.location &&
+      timeNode.satellite &&
+      timeNode.timespan
+    ) {
+      url = `${timeNode.parameter}/${timeNode.location}/${timeNode.satellite}/${timeNode.timespan}`;
+    } else if (
+      timeNode.parameter &&
+      timeNode.location &&
+      !timeNode.satellite &&
+      timeNode.timespan
+    ) {
+      url = `${timeNode.parameter}/${timeNode.location}/${timeNode.timespan}`;
     } else {
       return -1;
     }
@@ -66,7 +100,7 @@ export const generateUrl = (timestamp, basePath, params) => {
   return url;
 };
 
-export const init = () => {
+export const init = async () => {
   setInterval(() => {
     adresses.forEach((adress) => {
       getTimeDirectories(adress.base, adress.params);

@@ -85,6 +85,29 @@ class HeatMapServerController {
     }
   }
 
+  static async __findAllByParams(parameter, location, satellite) {
+    try {
+      let isValid = parameter && location && (satellite || satellite === "");
+
+      if (isValid) {
+        var result = await HeatMapServerService.findAllByParams(
+          parameter,
+          location,
+          satellite
+        );
+        if (result.length) {
+          return result;
+        } else {
+          return result;
+        }
+      } else {
+        return -400;
+      }
+    } catch (error) {
+      return -500;
+    }
+  }
+
   static async __add(heatmapServerObject) {
     try {
       var isSatelliteValid =
