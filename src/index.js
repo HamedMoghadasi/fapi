@@ -6,15 +6,18 @@ import authRoutes from "./server/routes/AuthRouter";
 import jwtRoutes from "./server/routes/JWTRouter";
 import locationRoutes from "./server/routes/LocationRoute";
 import baseMapServerRouter from "./server/routes/BaseMapServerRouter";
+import heatMapServerRouter from "./server/routes/HeatMapServerRouter";
 import customVectorFileRouter from "./server/routes/CustomLayerFileRouter";
 import userProfileRoutes from "./server/routes/UserProfileRouter";
 import userActivityLogRoutes from "./server/routes/UserActivityLogRouter";
 import JwtHelper from "./server/utils/Jwt";
 import cors from "cors";
 import CaptchaController from "./server/controllers/CaptchaController";
+import { init as initHeatMapServer } from "./server/modules/heatMapFetcher/heatMapFetcherModule";
 
 var app = new express();
 dotenv.config();
+initHeatMapServer();
 
 global.__basedir = __dirname;
 
@@ -39,6 +42,7 @@ app.use("/static", express.static(__dirname + "/server/assets"));
 app.get("/api/v1/captcha", CaptchaController.Get);
 app.use("/api/v1/Location", locationRoutes);
 app.use("/api/v1/baseMapServer", baseMapServerRouter);
+app.use("/api/v1/heatMapServer", heatMapServerRouter);
 app.use("/api/v1/customVectorFile", customVectorFileRouter);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/jwt/expiration", JwtHelper.validateToken, jwtRoutes);
