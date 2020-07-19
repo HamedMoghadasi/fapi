@@ -1,6 +1,7 @@
 import Util from "../utils/Utils";
 import dotenv from "dotenv";
 import HeatMapServerService from "../services/HeatMapServerService";
+import { generateUrl } from "../../server/modules/heatMapFetcher/heatMapFetcherModule";
 
 dotenv.config();
 
@@ -26,6 +27,29 @@ class HeatMapServerController {
     } catch (error) {
       console.error(error);
 
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async findAllByTimespan(req, res) {
+    try {
+      const timespan = req.body.timespan;
+
+      if (timespan) {
+        var result = await HeatMapServerService.findAllByTimespan(timespan);
+        if (result.length) {
+          util.setSuccess(200, "Successfully fetched.", result);
+          return util.send(res);
+        } else {
+          util.setSuccess(200, "No HeatMapServers found.");
+          return util.send(res);
+        }
+      } else {
+        util.setError(400, "timespan is not valid");
+        return util.send(res);
+      }
+    } catch (error) {
       util.setError(400, error);
       return util.send(res);
     }
@@ -136,7 +160,6 @@ class HeatMapServerController {
   static async add(req, res) {
     try {
       const newHeatMapServer = req.body;
-      console.log(newHeatMapServer);
 
       if (
         !newHeatMapServer.key ||
@@ -210,6 +233,32 @@ class HeatMapServerController {
       console.log(error);
 
       util.setError(500, "An Internal error occured");
+      return util.send(res);
+    }
+  }
+
+  static async getUrl(req, res) {
+    try {
+      const body = req.body;
+      if (!body.parameter || !body.location || !body.timespan) {
+        util.setError(400, "Please provide complete details.");
+        return util.send(res);
+      } else {
+        var url = await generateUrl(body.timespan, {
+          parameter: body.parameter,
+          location: body.location,
+          satellite: body.satellite,
+        });
+        if (url) {
+          util.setSuccess(200, "Successfully! url generated.", { url: url });
+          return util.send(res);
+        } else {
+          util.setError(500, "An internal error occured!");
+          return util.send(res);
+        }
+      }
+    } catch (error) {
+      util.setError(400, error);
       return util.send(res);
     }
   }

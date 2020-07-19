@@ -37,20 +37,12 @@ export const getTimeDirectories = (basePath, params) => {
 };
 
 function findTimeNode(all, target) {
-  all = _.sortBy(all, (item) => item.timespan);
-  console.log("all :>> ", all);
-
-  var greater = all.filter((item) => item.timespan >= target);
-  console.log("greater :>> ", greater);
-  var less = all.filter((item) => item.timespan <= target);
-  console.log("less :>> ", less);
-  var result = less[less.length - 1];
-
-  if (!greater.length || !less.length) {
+  var result = all.filter((item) => item.timespan === `${target}`);
+  if (!result.length) {
     console.log("no data");
     return -1;
   } else {
-    return result;
+    return result[0];
   }
 }
 
@@ -74,11 +66,10 @@ export const generateUrl = async (timestamp, params) => {
     params.satellite
   );
 
-  var timeNode = findTimeNode(all, timestamp);
-
+  var timeNode = await findTimeNode(all, timestamp);
   let url = "";
+
   if (timeNode) {
-    console.log("--- timeNode :>> ", timeNode);
     if (
       timeNode.parameter &&
       timeNode.location &&
@@ -105,5 +96,5 @@ export const init = async () => {
     adresses.forEach((adress) => {
       getTimeDirectories(adress.base, adress.params);
     });
-  }, 5000);
+  }, 600000);
 };

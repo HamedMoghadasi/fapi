@@ -17,6 +17,19 @@ export default class HeatMapServerService {
     }
   }
 
+  static async findAllByTimespan(timespan) {
+    try {
+      const heatMapServers = await database.HeatMapServer.findAll({
+        where: {
+          timespan: timespan,
+        },
+      });
+
+      return heatMapServers;
+    } catch (error) {
+      throw error;
+    }
+  }
   //AOT_world_nasa
   static async findAllByKey(Key) {
     try {
