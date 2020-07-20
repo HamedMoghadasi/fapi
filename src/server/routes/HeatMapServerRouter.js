@@ -6,7 +6,7 @@ const router = Router();
 const role = require("../constants/roles");
 
 router.get("/", HeatMapServerController.getAll);
-router.get("/getUrl", HeatMapServerController.getUrl);
+router.post("/getUrl", HeatMapServerController.getUrl);
 
 router.post("/", HeatMapServerController.add);
 router.post("/findAllByKey", HeatMapServerController.findAllByKey);
