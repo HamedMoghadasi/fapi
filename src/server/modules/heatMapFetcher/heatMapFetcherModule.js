@@ -46,27 +46,30 @@ function findTimeNode(all, target) {
   }
 }
 
-export const getTimeDirectoriesByParams = async (
+export const getTimeDirectoryByParamsAndTimespanRange = async (
   parameter,
   location,
-  satellite
+  satellite,
+  timestamps
 ) => {
-  var directories = await HeatMapServerController.__findAllByParams(
+  var directories = await HeatMapServerController.__findOneByParamsAndTimespanRange(
     parameter,
     location,
-    satellite
+    satellite,
+    timestamps
   );
   return directories;
 };
 
-export const generateUrl = async (timestamp, params) => {
-  var all = await getTimeDirectoriesByParams(
+export const generateUrl = async (timestamps, params) => {
+  var timeNode = await getTimeDirectoryByParamsAndTimespanRange(
     params.parameter,
     params.location,
-    params.satellite
+    params.satellite,
+    timestamps
   );
+  timeNode = timeNode[0];
 
-  var timeNode = await findTimeNode(all, timestamp);
   let url = "";
 
   if (timeNode) {
@@ -88,6 +91,7 @@ export const generateUrl = async (timestamp, params) => {
       return -1;
     }
   }
+  console.log("url :>> ", url);
   return url;
 };
 

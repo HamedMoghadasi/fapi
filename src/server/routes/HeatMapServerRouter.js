@@ -12,6 +12,10 @@ router.post("/", HeatMapServerController.add);
 router.post("/findAllByKey", HeatMapServerController.findAllByKey);
 router.post("/findAllByParams", HeatMapServerController.findAllByParams);
 router.post("/findAllByTimespan", HeatMapServerController.findAllByTimespan);
+router.post(
+  "/findOneByParamsAndTimespanRange",
+  HeatMapServerController.findOneByParamsAndTimespanRange
+);
 
 router.put("/:id", HeatMapServerController.update);
 

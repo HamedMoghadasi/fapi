@@ -377,7 +377,9 @@ class UserController {
     const user = req.user;
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
-
+    console.log("oldPassword :>> ", oldPassword);
+    console.log("newPassword :>> ", newPassword);
+    console.log("user :>> ", user);
     if (!Number(user.id)) {
       util.setError(400, "User not found");
       return util.send(res);

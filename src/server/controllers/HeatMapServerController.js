@@ -240,15 +240,22 @@ class HeatMapServerController {
   static async getUrl(req, res) {
     try {
       const body = req.body;
-      if (!body.parameter || !body.location || !body.timespan) {
+
+      if (
+        !body.parameter ||
+        !body.location ||
+        !Object.keys(body.timespan).length
+      ) {
         util.setError(400, "Please provide complete details.");
         return util.send(res);
       } else {
+        console.log("body.timespan :>> ", body.timespan);
         var url = await generateUrl(body.timespan, {
           parameter: body.parameter,
           location: body.location,
           satellite: body.satellite,
         });
+        console.log("errrr :>> ");
         if (url) {
           util.setSuccess(200, "Successfully! url generated.", { url: url });
           return util.send(res);
@@ -260,6 +267,71 @@ class HeatMapServerController {
     } catch (error) {
       util.setError(400, error);
       return util.send(res);
+    }
+  }
+
+  static async findOneByParamsAndTimespanRange(req, res) {
+    try {
+      const parameter = req.body.parameter;
+      const location = req.body.location;
+      const satellite = req.body.satellite;
+      const timespan = req.body.timespan;
+
+      let isValid =
+        parameter && location && satellite && Object.keys(timespan).length;
+
+      if (isValid) {
+        var result = await HeatMapServerService.findOneByParamsAndTimespanRange(
+          parameter,
+          location,
+          satellite,
+          timespan
+        );
+        console.log("result :>> ", result);
+        if (result.length) {
+          util.setSuccess(200, "Successfully fetched.", result);
+          return util.send(res);
+        } else {
+          util.setSuccess(200, "No HeatMapServers found.");
+          return util.send(res);
+        }
+      } else {
+        util.setError(400, "params are not valid");
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async __findOneByParamsAndTimespanRange(
+    parameter,
+    location,
+    satellite,
+    timespan
+  ) {
+    try {
+      let isValid =
+        parameter && location && satellite && Object.keys(timespan).length;
+
+      if (isValid) {
+        var result = await HeatMapServerService.findOneByParamsAndTimespanRange(
+          parameter,
+          location,
+          satellite,
+          timespan
+        );
+        if (result.length) {
+          return result;
+        } else {
+          return result;
+        }
+      } else {
+        return -400;
+      }
+    } catch (error) {
+      return -500;
     }
   }
 }

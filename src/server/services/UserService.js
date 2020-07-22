@@ -147,7 +147,7 @@ class UserService {
     const currentUser = await database.User.findOne({
       where: { id: Number(user.id) },
     });
-
+    console.log("currentUser :>> ", currentUser);
     var isMatch = bcrypt.compareSync(oldPassword, currentUser.password);
 
     if (isMatch) {

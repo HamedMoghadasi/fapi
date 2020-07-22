@@ -49,8 +49,38 @@ export default class HeatMapServerService {
     }
   }
 
+  static async findOneByParamsAndTimespanRange(
+    parameter,
+    location,
+    satellite,
+    timespanRange
+  ) {
+    try {
+      const heatMapServers = await database.HeatMapServer.findAll({
+        where: {
+          [Op.and]: {
+            parameter: parameter,
+            location: location,
+            satellite: satellite,
+            [Op.and]: {
+              timespan: {
+                [Op.lte]: timespanRange.end,
+                [Op.gte]: timespanRange.start,
+              },
+            },
+          },
+        },
+        order: [["timespan", "ASC"]],
+        limit: 1,
+      });
+
+      return heatMapServers;
+    } catch (error) {
+      throw error;
+    }
+  }
   //AOT , world , nasa
-  static async findAllByParams(parameter, location = "world", satellite = "") {
+  static async findAllByParams(parameter, location, satellite) {
     try {
       const heatMapServers = await database.HeatMapServer.findAll({
         where: {
