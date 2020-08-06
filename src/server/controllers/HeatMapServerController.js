@@ -1,7 +1,10 @@
 import Util from "../utils/Utils";
 import dotenv from "dotenv";
 import HeatMapServerService from "../services/HeatMapServerService";
-import { generateUrl } from "../../server/modules/heatMapFetcher/heatMapFetcherModule";
+import {
+  generateUrl,
+  generateChangeUrl,
+} from "../../server/modules/heatMapFetcher/heatMapFetcherModule";
 
 dotenv.config();
 
@@ -270,6 +273,39 @@ class HeatMapServerController {
     }
   }
 
+  static async getChangeUrl(req, res) {
+    try {
+      const body = req.body;
+
+      if (
+        !body.parameter ||
+        !body.location ||
+        !Object.keys(body.timespan).length
+      ) {
+        util.setError(400, "Please provide complete details.");
+        return util.send(res);
+      } else {
+        console.log("body.timespan :>> ", body.timespan);
+        var url = await generateChangeUrl(body.timespan, {
+          parameter: body.parameter,
+          location: body.location,
+          satellite: body.satellite,
+        });
+        console.log("errrr :>> ");
+        if (url) {
+          util.setSuccess(200, "Successfully! url generated.", { url: url });
+          return util.send(res);
+        } else {
+          util.setError(500, "An internal error occured!");
+          return util.send(res);
+        }
+      }
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
   static async findOneByParamsAndTimespanRange(req, res) {
     try {
       const parameter = req.body.parameter;
@@ -322,6 +358,72 @@ class HeatMapServerController {
           satellite,
           timespan
         );
+        if (result.length) {
+          return result;
+        } else {
+          return result;
+        }
+      } else {
+        return -400;
+      }
+    } catch (error) {
+      return -500;
+    }
+  }
+
+  static async findChangeLayerByParamsAndTimespanRange(req, res) {
+    try {
+      const parameter = req.body.parameter;
+      const location = req.body.location;
+      const satellite = req.body.satellite;
+      const timespan = req.body.timespan;
+
+      let isValid =
+        parameter && location && satellite && Object.keys(timespan).length;
+
+      if (isValid) {
+        var result = await HeatMapServerService.findChangeLayerByParamsAndTimespanRange(
+          parameter,
+          location,
+          satellite,
+          timespan
+        );
+        console.log("result :>> ", result);
+        if (result.length) {
+          util.setSuccess(200, "Successfully fetched.", result);
+          return util.send(res);
+        } else {
+          util.setSuccess(200, "No HeatMapServers found.");
+          return util.send(res);
+        }
+      } else {
+        util.setError(400, "params are not valid");
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async __findChangeLayerByParamsAndTimespanRange(
+    parameter,
+    location,
+    satellite,
+    timespan
+  ) {
+    try {
+      let isValid =
+        parameter && location && satellite && Object.keys(timespan).length;
+
+      if (isValid) {
+        var result = await HeatMapServerService.findChangeLayerByParamsAndTimespanRange(
+          parameter,
+          location,
+          satellite,
+          timespan
+        );
+        console.log("result :>> ", result);
         if (result.length) {
           return result;
         } else {

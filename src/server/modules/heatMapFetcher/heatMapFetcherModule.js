@@ -36,17 +36,7 @@ export const getTimeDirectories = (basePath, params) => {
   return result;
 };
 
-function findTimeNode(all, target) {
-  var result = all.filter((item) => item.timespan === `${target}`);
-  if (!result.length) {
-    console.log("no data");
-    return -1;
-  } else {
-    return result[0];
-  }
-}
-
-export const getTimeDirectoryByParamsAndTimespanRange = async (
+export const getTimeNode = async (
   parameter,
   location,
   satellite,
@@ -61,8 +51,58 @@ export const getTimeDirectoryByParamsAndTimespanRange = async (
   return directories;
 };
 
+export const getChangeLayerTimeNode = async (
+  parameter,
+  location,
+  satellite,
+  timestamps
+) => {
+  var directories = await HeatMapServerController.__findChangeLayerByParamsAndTimespanRange(
+    parameter,
+    location,
+    satellite,
+    timestamps
+  );
+  console.log("directories :>> ", directories);
+  return directories;
+};
+
 export const generateUrl = async (timestamps, params) => {
-  var timeNode = await getTimeDirectoryByParamsAndTimespanRange(
+  var timeNode = await getTimeNode(
+    params.parameter,
+    params.location,
+    params.satellite,
+    timestamps
+  );
+  timeNode = timeNode[0];
+
+  let url = "";
+
+  if (timeNode) {
+    if (
+      timeNode.parameter &&
+      timeNode.location &&
+      timeNode.satellite &&
+      timeNode.timespan
+    ) {
+      url = `${timeNode.parameter}/${timeNode.location}/${timeNode.satellite}/${timeNode.timespan}`;
+    } else if (
+      timeNode.parameter &&
+      timeNode.location &&
+      !timeNode.satellite &&
+      timeNode.timespan
+    ) {
+      url = `${timeNode.parameter}/${timeNode.location}/${timeNode.timespan}`;
+    } else {
+      return -1;
+    }
+  }
+  console.log("url :>> ", url);
+  return url;
+};
+
+export const generateChangeUrl = async (timestamps, params) => {
+  var timeNode = await getChangeLayerTimeNode(
     params.parameter,
     params.location,
     params.satellite,

@@ -7,7 +7,10 @@ const util = new Util();
 class CaptchaController {
   static async Get(req, res) {
     try {
-      var captcha = svgCaptcha.create();
+      var captcha = svgCaptcha.create({
+        ignoreChars: "0o1ilQWERTYUIOPASDFGHJKLZXCVBNM",
+        noise: 5,
+      });
 
       await bcryptjs
         .hash(captcha.text, 5)
