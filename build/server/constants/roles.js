@@ -2,5 +2,7 @@
 
 module.exports = {
   Admin: "Admin",
-  User: "User"
+  User: "User",
+  Manager: "Manager",
+  SuperManager: "SuperManager"
 };

@@ -40,7 +40,7 @@ var router = (0, _express.Router)();
 
 var role = require("../constants/roles");
 
-router.get("/", _Jwt["default"].authurize([role.Admin, role.User]), _BaseMapServerController["default"].getAll);
+router.get("/", _Jwt["default"].authurize([role.Admin, role.User, role.Manager, role.SuperManager]), _BaseMapServerController["default"].getAll);
 router.post("/find", _BaseMapServerController["default"].find);
 router.put("/:id", upload.single("baseMapImage"), _Jwt["default"].authurize([role.Admin]), _BaseMapServerController["default"].update);
 router["delete"]("/:id", _Jwt["default"].authurize([role.Admin]), _BaseMapServerController["default"]["delete"]);

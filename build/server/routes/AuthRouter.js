@@ -13,8 +13,6 @@ var _UserController = _interopRequireDefault(require("../controllers/UserControl
 
 var _Jwt = _interopRequireDefault(require("../utils/Jwt"));
 
-var role = require("../constants/roles");
-
 var router = (0, _express.Router)();
 router.post("/login", _UserController["default"].login);
 router.post("/logout", _Jwt["default"].validateToken, _UserController["default"].logout);

@@ -19,7 +19,7 @@ var _Utils = _interopRequireDefault(require("../utils/Utils"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
-var _locationServices = _interopRequireDefault(require("../services/locationServices"));
+var _LocationServices = _interopRequireDefault(require("../services/LocationServices"));
 
 _dotenv["default"].config();
 
@@ -41,7 +41,7 @@ var LocationController = /*#__PURE__*/function () {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return _locationServices["default"].getAll();
+                return _LocationServices["default"].getAll();
 
               case 3:
                 locations = _context.sent;
@@ -93,7 +93,7 @@ var LocationController = /*#__PURE__*/function () {
                 }
 
                 _context2.next = 5;
-                return _locationServices["default"].find(searchedPhrase);
+                return _LocationServices["default"].find(searchedPhrase);
 
               case 5:
                 result = _context2.sent;
@@ -165,7 +165,7 @@ var LocationController = /*#__PURE__*/function () {
 
               case 8:
                 _context3.next = 10;
-                return _locationServices["default"].add(newLocation);
+                return _LocationServices["default"].add(newLocation);
 
               case 10:
                 result = _context3.sent;
@@ -229,7 +229,7 @@ var LocationController = /*#__PURE__*/function () {
               case 5:
                 _context4.prev = 5;
                 _context4.next = 8;
-                return _locationServices["default"].update(id, newupdatedLocation);
+                return _LocationServices["default"].update(id, newupdatedLocation);
 
               case 8:
                 updatedLocationResult = _context4.sent;
@@ -285,7 +285,7 @@ var LocationController = /*#__PURE__*/function () {
               case 4:
                 _context5.prev = 4;
                 _context5.next = 7;
-                return _locationServices["default"]["delete"](id);
+                return _LocationServices["default"]["delete"](id);
 
               case 7:
                 deletedLocationResult = _context5.sent;

@@ -40,7 +40,7 @@ var router = (0, _express.Router)();
 
 var role = require("../constants/roles");
 
-router.get("/", _Jwt["default"].authurize([role.Admin, role.User]), _CustomLayerFileController["default"].getAll);
+router.get("/", _Jwt["default"].authurize([role.Admin, role.User, role.Manager, role.SuperManager]), _CustomLayerFileController["default"].getAll);
 router.post("/find", _CustomLayerFileController["default"].find);
 router.put("/:id", upload.single("customVectorFile"), _Jwt["default"].authurize([role.Admin]), _CustomLayerFileController["default"].update);
 router["delete"]("/:id", _Jwt["default"].authurize([role.Admin]), _CustomLayerFileController["default"]["delete"]);

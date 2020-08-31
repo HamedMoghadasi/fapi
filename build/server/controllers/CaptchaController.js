@@ -38,7 +38,10 @@ var CaptchaController = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                captcha = _svgCaptcha["default"].create();
+                captcha = _svgCaptcha["default"].create({
+                  ignoreChars: "0o1ilQWERTYUIOPASDFGHJKLZXCVBNM",
+                  noise: 5
+                });
                 _context.next = 4;
                 return _bcryptjs["default"].hash(captcha.text, 5).then(function (hash) {
                   captcha.text = hash;

@@ -23,6 +23,8 @@ var _LocationRoute = _interopRequireDefault(require("./server/routes/LocationRou
 
 var _BaseMapServerRouter = _interopRequireDefault(require("./server/routes/BaseMapServerRouter"));
 
+var _HeatMapServerRouter = _interopRequireDefault(require("./server/routes/HeatMapServerRouter"));
+
 var _CustomLayerFileRouter = _interopRequireDefault(require("./server/routes/CustomLayerFileRouter"));
 
 var _UserProfileRouter = _interopRequireDefault(require("./server/routes/UserProfileRouter"));
@@ -35,16 +37,20 @@ var _cors = _interopRequireDefault(require("cors"));
 
 var _CaptchaController = _interopRequireDefault(require("./server/controllers/CaptchaController"));
 
+var _heatMapFetcherModule = require("./server/modules/heatMapFetcher/heatMapFetcherModule");
+
 var app = new _express["default"]();
 
 _dotenv["default"].config();
 
+(0, _heatMapFetcherModule.init)();
 global.__basedir = __dirname;
+console.log("process.env.NODE_ENV :>> ", process.env.NODE_ENV);
 var corsConfig = process.env.NODE_ENV !== "production" ? {
-  origin: [process.env.CORS_ORIGIN_Localhost, process.env.CORS_ORIGIN_IP],
+  origin: [process.env.CORS_ORIGIN_Localhost, process.env.CORS_ORIGIN_IP, "http://localhost:5000", "http://192.168.11.16:5000"],
   credentials: true
 } : {
-  origin: [process.env.CORS_ORIGIN_Localhost, process.env.CORS_ORIGIN_IP],
+  origin: [process.env.CORS_ORIGIN_Localhost, process.env.CORS_ORIGIN_IP, "http://localhost:5000", "http://192.168.11.16:5000"],
   credentials: true
 };
 app.use(_bodyParser["default"].json());
@@ -57,6 +63,7 @@ app.use("/static", _express["default"]["static"](__dirname + "/server/assets"));
 app.get("/api/v1/captcha", _CaptchaController["default"].Get);
 app.use("/api/v1/Location", _LocationRoute["default"]);
 app.use("/api/v1/baseMapServer", _BaseMapServerRouter["default"]);
+app.use("/api/v1/heatMapServer", _HeatMapServerRouter["default"]);
 app.use("/api/v1/customVectorFile", _CustomLayerFileRouter["default"]);
 app.use("/api/v1/auth", _AuthRouter["default"]);
 app.use("/api/v1/jwt/expiration", _Jwt["default"].validateToken, _JWTRouter["default"]);

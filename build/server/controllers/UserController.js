@@ -878,39 +878,42 @@ var UserController = /*#__PURE__*/function () {
                 user = req.user;
                 oldPassword = req.body.oldPassword;
                 newPassword = req.body.newPassword;
+                console.log("oldPassword :>> ", oldPassword);
+                console.log("newPassword :>> ", newPassword);
+                console.log("user :>> ", user);
 
                 if (Number(user.id)) {
-                  _context14.next = 8;
+                  _context14.next = 11;
                   break;
                 }
 
                 util.setError(400, "User not found");
                 return _context14.abrupt("return", util.send(res));
 
-              case 8:
+              case 11:
                 if (!(newPassword.length < 0 || newPassword === undefined)) {
-                  _context14.next = 13;
+                  _context14.next = 16;
                   break;
                 }
 
                 util.setError(400, "Invalid input for new password.");
                 return _context14.abrupt("return", util.send(res));
 
-              case 13:
+              case 16:
                 if (!(oldPassword.length < 0 || oldPassword === undefined)) {
-                  _context14.next = 16;
+                  _context14.next = 19;
                   break;
                 }
 
                 util.setError(400, "Invalid input for old password.");
                 return _context14.abrupt("return", util.send(res));
 
-              case 16:
-                _context14.prev = 16;
-                _context14.next = 19;
+              case 19:
+                _context14.prev = 19;
+                _context14.next = 22;
                 return _UserService["default"].changePasswordFromProfile(user, oldPassword, newPassword);
 
-              case 19:
+              case 22:
                 updateUserPassword = _context14.sent;
 
                 if (!updateUserPassword) {
@@ -921,19 +924,19 @@ var UserController = /*#__PURE__*/function () {
 
                 return _context14.abrupt("return", util.send(res));
 
-              case 24:
-                _context14.prev = 24;
-                _context14.t0 = _context14["catch"](16);
+              case 27:
+                _context14.prev = 27;
+                _context14.t0 = _context14["catch"](19);
                 console.log(_context14.t0);
                 util.setError(400, _context14.t0);
                 return _context14.abrupt("return", util.send(res));
 
-              case 29:
+              case 32:
               case "end":
                 return _context14.stop();
             }
           }
-        }, _callee14, null, [[16, 24]]);
+        }, _callee14, null, [[19, 27]]);
       }));
 
       function changePasswordFromProfile(_x27, _x28) {

@@ -486,14 +486,15 @@ var UserService = /*#__PURE__*/function () {
 
               case 2:
                 currentUser = _context10.sent;
+                console.log("currentUser :>> ", currentUser);
                 isMatch = _bcrypt["default"].compareSync(oldPassword, currentUser.password);
 
                 if (!isMatch) {
-                  _context10.next = 10;
+                  _context10.next = 11;
                   break;
                 }
 
-                _context10.next = 7;
+                _context10.next = 8;
                 return _bcrypt["default"].hash(newPassword, 15).then(function (hash) {
                   user.password = hash;
 
@@ -508,13 +509,13 @@ var UserService = /*#__PURE__*/function () {
                   throw new Error();
                 });
 
-              case 7:
+              case 8:
                 return _context10.abrupt("return", _context10.sent);
 
-              case 10:
+              case 11:
                 throw new Error("Password is not match");
 
-              case 11:
+              case 12:
               case "end":
                 return _context10.stop();
             }

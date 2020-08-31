@@ -17,9 +17,9 @@ var router = (0, _express.Router)();
 
 var role = require("../constants/roles");
 
-router.get("/", _Jwt["default"].authurize([role.Admin, role.User]), _UserController["default"].getUserAccount);
-router.put("/", _Jwt["default"].authurize([role.Admin, role.User]), _UserController["default"].updateUserAccount);
-router["delete"]("/", _Jwt["default"].authurize([role.Admin, role.User]), _UserController["default"].deleteUserAccount);
-router.post("/ChangePassword", _Jwt["default"].authurize([role.Admin, role.User]), _UserController["default"].changePasswordFromProfile);
+router.get("/", _Jwt["default"].authurize([role.Admin, role.User, role.Manager, role.SuperManager]), _UserController["default"].getUserAccount);
+router.put("/", _Jwt["default"].authurize([role.Admin, role.User, role.Manager, role.SuperManager]), _UserController["default"].updateUserAccount);
+router["delete"]("/", _Jwt["default"].authurize([role.Admin, role.User, role.Manager, role.SuperManager]), _UserController["default"].deleteUserAccount);
+router.post("/ChangePassword", _Jwt["default"].authurize([role.Admin, role.User, role.Manager, role.SuperManager]), _UserController["default"].changePasswordFromProfile);
 var _default = router;
 exports["default"] = _default;
