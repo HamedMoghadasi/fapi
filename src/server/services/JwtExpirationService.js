@@ -25,7 +25,6 @@ class JwtExpirationService {
         }
 
         const jsonResponse = response[0];
-        console.log("b1", jsonResponse);
 
         return {
           default: jsonResponse.default,

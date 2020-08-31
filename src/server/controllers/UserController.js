@@ -81,7 +81,9 @@ class UserController {
                   return util.send(res);
                 });
               } else {
-                util.setError(400, "Password is wrong", { code: 4002 });
+                util.setError(400, "username or password is wrong", {
+                  code: 4002,
+                });
                 return util.send(res);
               }
             }
@@ -94,7 +96,7 @@ class UserController {
           return util.send(res);
         }
       } else {
-        util.setError(400, "There's not exist such a user with this email", {
+        util.setError(400, "username or password is wrong", {
           code: 4003,
         });
         return util.send(res);
