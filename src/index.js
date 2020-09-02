@@ -20,35 +20,27 @@ dotenv.config();
 initHeatMapServer();
 
 global.__basedir = __dirname;
-console.log("process.env.NODE_ENV :>> ", process.env.NODE_ENV);
-const corsConfig =
-  process.env.NODE_ENV !== "production"
-    ? {
-        origin: [
-          process.env.CORS_ORIGIN_Localhost,
-          process.env.CORS_ORIGIN_IP,
-          "http://localhost:3000",
-          "http://192.168.11.16:3000",
-          "http://localhost:5000",
-          "http://192.168.11.16:5000",
-        ],
-        credentials: true,
-      }
-    : {
-        origin: [
-          process.env.CORS_ORIGIN_Localhost,
-          process.env.CORS_ORIGIN_IP,
-          "http://localhost:3000",
-          "http://192.168.11.16:3000",
-          "http://localhost:5000",
-          "http://192.168.11.16:5000",
-        ],
-        credentials: true,
-      };
+const corsOptions = {
+  origin: [
+    process.env.CORS_ORIGIN_Localhost,
+    process.env.CORS_ORIGIN_IP,
+    "http://localhost:3000",
+    "http://192.168.11.16:3000",
+    "http://localhost:5000",
+    "http://192.168.11.16:5000",
+    "capacitor://localhost",
+    "ionic://localhost",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:8100",
+    "http://10.0.2.2",
+  ],
+  credentials: true,
+};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors(corsConfig));
+app.use(cors(corsOptions));
 
 var port = process.env.PORT || 3505;
 

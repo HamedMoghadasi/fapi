@@ -17,19 +17,25 @@ class CaptchaController {
         .then((hash) => {
           captcha.text = hash;
           util.setSuccess(200, "Succefull!", {
-            captcha: { token: captcha.text, svg: captcha.data },
+            captcha: {
+              token: captcha.text,
+              svg: captcha.data,
+              origin: req.get("origin"),
+            },
           });
           return util.send(res);
         })
         .catch((err) => {
           util.setError(400, "An error occured on CAPTCHA service.", {
             code: 5001,
+            origin: req.get("origin"),
           });
           return util.send(res);
         });
     } catch (error) {
       util.setError(400, "An error occured on CAPTCHA service.", {
         code: 5002,
+        origin: req.get("origin"),
       });
       return util.send(res);
     }
